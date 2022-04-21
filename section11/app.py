@@ -31,9 +31,7 @@ one possible use case for claims are access level control, which is shown below
 """
 @jwt.user_claims_loader
 def add_claims_to_jwt(identity):
-    if identity == 1:   # instead of hard-coding, we should read from a config file to get a list of admins instead
-        return {'is_admin': True}
-    return {'is_admin': False}
+    return {'is_admin': True} if identity == 1 else {'is_admin': False}
 
 
 # This method will check if a token is blacklisted, and will be called automatically when blacklist is enabled

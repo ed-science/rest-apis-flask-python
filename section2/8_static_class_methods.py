@@ -9,7 +9,7 @@ class Student:
         return sum(self.marks) / len(self.marks)
 
     def go_to_school(self):
-        return "I'm going to {}".format(self.school)
+        return f"I'm going to {self.school}"
 
 anna = Student("Anna", "Oxford")
 rolf = Student("Rolf", "Harvard")

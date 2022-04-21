@@ -8,7 +8,7 @@ print(my_list_variable)
 
 ###
 
-final_list = [n for n in my_list_variable]
+final_list = list(my_list_variable)
 final_list.append(5)
 print(final_list)
 print(my_list_variable)

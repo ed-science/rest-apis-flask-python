@@ -25,15 +25,14 @@ class Item(Resource):
 
     @jwt_required
     def get(self, name):
-        item = ItemModel.find_by_name(name)
-        if item:
+        if item := ItemModel.find_by_name(name):
             return item.json()
         return {'message': 'Item not found'}, 404
 
     @fresh_jwt_required
     def post(self, name):
         if ItemModel.find_by_name(name):
-            return {'message': "An item with name '{}' already exists.".format(name)}, 400
+            return {'message': f"An item with name '{name}' already exists."}, 400
 
         data = self.parser.parse_args()
 
@@ -52,8 +51,7 @@ class Item(Resource):
         if not claims['is_admin']:
             return {'message': 'Admin privilege required.'}, 401
 
-        item = ItemModel.find_by_name(name)
-        if item:
+        if item := ItemModel.find_by_name(name):
             item.delete_from_db()
             return {'message': 'Item deleted.'}
         return {'message': 'Item not found.'}, 404

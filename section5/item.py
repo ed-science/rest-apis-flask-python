@@ -15,8 +15,7 @@ class Item(Resource):
 
     @jwt_required()
     def get(self, name):
-        item = self.find_by_name(name)
-        if item:
+        if item := self.find_by_name(name):
             return item
         return {'message': 'Item not found'}, 404
 
@@ -35,7 +34,7 @@ class Item(Resource):
 
     def post(self, name):
         if self.find_by_name(name):
-            return {'message': "An item with name '{}' already exists.".format(name)}
+            return {'message': f"An item with name '{name}' already exists."}
 
         data = Item.parser.parse_args()
 
@@ -110,9 +109,7 @@ class ItemList(Resource):
 
         query = "SELECT * FROM {table}".format(table=self.TABLE_NAME)
         result = cursor.execute(query)
-        items = []
-        for row in result:
-            items.append({'name': row[0], 'price': row[1]})
+        items = [{'name': row[0], 'price': row[1]} for row in result]
         connection.close()
 
         return {'items': items}
